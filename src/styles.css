@@ -1,8 +1,15 @@
 :root {
+    --card-width: 320px;
+}
+.light {
     --headerBackgroundColor: #FFF;
     --mainBackgroundColor: #E2E8F0;
     --iconColor: #000;
-    --card-width: 320px;
+}
+.dark {
+    --headerBackgroundColor: #2B3743;
+    --mainBackgroundColor: #212C36;
+    --iconColor: #FFF;
 }
 html {
     font-family: 'Nunito Sans', sans-serif;
@@ -10,6 +17,9 @@ html {
 body {
     margin: 0;
     min-height: 100vh;
+    color: var(--iconColor);
+    background-color: var(--mainBackgroundColor);
+    transition: background 200ms ease-in-out, color 300ms ease-in-out;
 }
 button {
     cursor: pointer;
@@ -37,16 +47,15 @@ app-header {
 app-home, app-details {
     display: block;
     min-height: calc(100vh - 100px);
-    background-color: var(--mainBackgroundColor);
-    margin: 5px 0 0 0;
 }
 app-home {
     padding: 15px 10px 20px 10px;
 }
 app-details {
-    padding: 15px 30px
+    padding: 15px 30px;
 }
 
+/* LOADER SETTINGS */
 .loader {
     border: 16px solid #f3f3f3;
     border-radius: 50%;
@@ -56,6 +65,14 @@ app-details {
     -webkit-animation: spin 2s linear infinite; /* Safari */
     animation: spin 2s linear infinite;
     margin: 300px auto;
+}
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 .sub {
     font-weight: 600;
