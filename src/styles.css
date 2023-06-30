@@ -2,6 +2,7 @@
     --headerBackgroundColor: #FFF;
     --mainBackgroundColor: #E2E8F0;
     --iconColor: #000;
+    --card-width: 320px;
 }
 html {
     font-family: 'Nunito Sans', sans-serif;
@@ -55,18 +56,6 @@ app-details {
     -webkit-animation: spin 2s linear infinite; /* Safari */
     animation: spin 2s linear infinite;
     margin: 300px auto;
-}
-
-.imgFill {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    height: 160px;
-}
-.imgFill img {
-    height: auto;
-    width: 100%;
 }
 .sub {
     font-weight: 600;
