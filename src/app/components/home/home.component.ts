@@ -7,22 +7,26 @@ import { ApiService } from 'src/app/services/api.service';
   <main>
     <div class="fields">
       <div class="searchbar">
-        <form (input)="this.searchForLocation($event, search.value)">
+        <form (input)="this.search($event, searchbox.value, select.value)">
           <label for="search">
             <svg class="icon searchIcon"><use href="#searchIcon"></use></svg>
           </label>
-          <input id="search" #search type="search" placeholder="Search for a country...">
+          <input id="search" #searchbox type="search" placeholder="Search for a country...">
         </form>
       </div>
-      <label for="region-select">Filter by Region:</label>
-      <select name="pets" id="region-select">
-        <option value="">--Please choose an option--</option>
-        <option value="africa">Africa</option>
-        <option value="america">America</option>
-        <option value="asia">Asia</option>
-        <option value="europe">Europe</option>
-        <option value="oceania">Oceania</option>
-      </select>
+      <div class="filter">
+        <form (input)="search($event, searchbox.value, select.value)">
+          <label for="region-select">Filter by Region</label>
+          <select #select name="region-select" id="region-select">
+            <option value="">None</option>
+            <option value="Africa">Africa</option>
+            <option value="Americas">America</option>
+            <option value="Asia">Asia</option>
+            <option value="Europe">Europe</option>
+            <option value="Oceania">Oceania</option>
+          </select>
+        </form>
+      </div>
     </div>
     <div class="results">
       <div class="card" *ngFor="let country of results$" routerLink="{{ country.name.official }}">
@@ -58,11 +62,28 @@ import { ApiService } from 'src/app/services/api.service';
   input:focus {
     outline: none;
   }
+  .filter {
+    position: relative;
+    background-color: var(--headerBackgroundColor);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 5px 4px rgba(0, 0, 0, 0.1);
+    margin: 50px 0;
+    width: 250px;
+  }
+  .filter select {
+    display: none;
+  }
+  .filter > form {
+    display: flex;
+    justify-content: space-between;
+  }
+  
   .results {
     display: grid;
     grid-template-columns: repeat(auto-fit, var(--card-width));
     place-content: center;
-    gap: 20px;
+    gap: 50px;
     overflow-y: auto;
   }
   .card {
@@ -94,29 +115,37 @@ export class HomeComponent implements OnInit {
   constructor(public api: ApiService) {}
   ngOnInit() {
     this.api.getAllLocations().subscribe((data) => {
-      this.results$ = data;
-      console.log(this.results$);
+      this.data = data;
+      this.results$ = this.data;
+      console.log(this.data);
       this.isLocationsSearched = true;
     })
   }
 
-  isLocationsSearched:boolean = false;
+  data:any;
   results$:any;
+  isLocationsSearched:boolean = false;
 
-  searchForLocation(e: Event, input:string) {
+  search(e: Event, input:string, filter:string) {
     e.preventDefault();
-    if (input == '') {
-      this.api.getAllLocations().subscribe((data) => {
-        this.results$ = data;
-        console.log(this.results$);
-        this.isLocationsSearched = true;
-      })
+    if (input != '' && filter != '') {
+      this.results$ = this.data.filter((location:any) => location.name.official.includes(input) && location.region == filter);
+      console.log('Both');
+      console.log(this.results$);
+    }
+    else if (input != '' && filter == '') {
+      this.results$ = this.data.filter((location:any) => location.name.official.includes(input));
+      console.log('Input');
+      console.log(this.results$);
+    }
+    else if (input == '' && filter != '') {
+      this.results$ = this.data.filter((location:any) => location.region == filter);
+      console.log('Filter');
+      console.log(this.results$);
     }
     else {
-      this.api.searchLocation(input).subscribe((data) => {
-        this.results$ = data;
-        console.log(this.results$);
-      })
+      console.log('Both Empty');
+      this.results$ = this.data;
     }
   }
 }
