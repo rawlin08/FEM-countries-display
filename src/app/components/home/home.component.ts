@@ -17,11 +17,11 @@ import { ApiService } from 'src/app/services/api.service';
       <label for="region-select">Filter by Region:</label>
       <select name="pets" id="region-select">
         <option value="">--Please choose an option--</option>
-        <option value="dog">Africa</option>
-        <option value="cat">America</option>
-        <option value="hamster">Asia</option>
-        <option value="parrot">Europe</option>
-        <option value="spider">Oceania</option>
+        <option value="africa">Africa</option>
+        <option value="america">America</option>
+        <option value="asia">Asia</option>
+        <option value="europe">Europe</option>
+        <option value="oceania">Oceania</option>
       </select>
     </div>
     <div class="results">
