@@ -8,7 +8,18 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
   constructor() {}
   ngOnInit() {
-    
+    this.theme = JSON.parse(localStorage.getItem('theme')!);
+    if (!this.theme) {
+      this.theme = {
+        mode: 'light',
+        button: 'Dark Mode'
+      };
+    }
+    document.body.classList.add(this.theme.mode);
+    this.saveTheme();
   }
-  theme: string = 'Dark Mode';
+  theme:any;
+  saveTheme() {
+    localStorage.setItem('theme', JSON.stringify(this.theme));
+  }
 }
