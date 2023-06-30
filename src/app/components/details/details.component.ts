@@ -5,9 +5,7 @@ import { ApiService } from 'src/app/services/api.service';
 @Component({
   selector: 'app-details',
   template: `
-  <a routerLink="">
-    <button id="back"><svg class="icon back"><use href="#backIcon"></use></svg>Back</button>
-  </a>
+  <button routerLink="" id="back"><svg class="icon back"><use href="#backIcon"></use></svg>Back</button>
   <ng-template #loading>
     <div class="loader"></div>
   </ng-template>
@@ -32,7 +30,7 @@ import { ApiService } from 'src/app/services/api.service';
     <div class="bordered">
       <button class="bordersBttn" *ngFor="let borderCountry of this.borderedCountries">{{ borderCountry[0].name.common }}</button>
     </div>
-</main>
+  </main>
     `,
   styles: [`
   #back, .bordersBttn {
@@ -43,7 +41,8 @@ import { ApiService } from 'src/app/services/api.service';
     gap: 2px;
     box-shadow: 0 0 5px 4px rgba(0, 0, 0, 0.1);
     margin: 20px 0 40px 0;
-    background-color: var(--headerBackgroundColor);
+    background-color: inherit;
+    color: inherit;
     border: none;
   }
   .back {
@@ -88,6 +87,7 @@ export class DetailsComponent implements OnInit {
       this.api.getSpecificLocation(uid).subscribe((data) => {
         this.name$ = data;
         console.log(this.name$);
+        
         this.name$[0].borders.forEach((country:any) => {
           
         });
