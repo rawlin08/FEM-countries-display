@@ -28,7 +28,11 @@ import { ApiService } from 'src/app/services/api.service';
         </form>
       </div>
     </div>
-    <div class="results">
+    <ng-template #loading>
+      <div class="loader"></div>
+    </ng-template>
+    <div class="results" *ngIf="this.results$; else loading">
+      <p *ngIf="this.results$.length == 0">No Results</p>
       <div class="card" *ngFor="let country of results$" routerLink="{{ country.name.official }}">
         <img src="{{ country.flags.png }}" alt="{{ country.flags.alt }}">
         <div class="details">
@@ -42,6 +46,9 @@ import { ApiService } from 'src/app/services/api.service';
   </main>
   `,
   styles: [`
+  .results > p {
+    text-align: center;
+  }
   .searchbar > form {
     display: flex;
     align-items: center;
@@ -58,6 +65,9 @@ import { ApiService } from 'src/app/services/api.service';
     padding: 15px 0;
     width: 85%;
     font-family: 'Nunito Sans', sans-serif;
+    background-color: var(--headerBackgroundColor);
+    color: inherit;
+    transition: color 500ms ease-in-out;
   }
   input:focus {
     outline: none;
@@ -66,19 +76,21 @@ import { ApiService } from 'src/app/services/api.service';
     position: relative;
     background-color: var(--headerBackgroundColor);
     border-radius: 8px;
-    padding: 20px;
+    padding: 15px;
     box-shadow: 0 0 5px 4px rgba(0, 0, 0, 0.1);
-    margin: 50px 0;
-    width: 250px;
+    margin: 30px 0;
+    width: 200px;
   }
   .filter select {
-    display: none;
+    background-color: transparent;
+    border: none;
+    text-align: right;
+    color: inherit;
   }
   .filter > form {
     display: flex;
     justify-content: space-between;
   }
-  
   .results {
     display: grid;
     grid-template-columns: repeat(auto-fit, var(--card-width));
@@ -109,6 +121,19 @@ import { ApiService } from 'src/app/services/api.service';
   .details {
     padding: 0 20px 30px 20px;
   }
+  /* DESKTOP */
+  @media (min-width: 1281px) {
+    .fields {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 50px;
+      margin: 10px 0 20px 0;
+    }
+    .filter {
+      margin: 0;
+    }
+  }
   `]
 })
 export class HomeComponent implements OnInit {
@@ -129,12 +154,12 @@ export class HomeComponent implements OnInit {
   search(e: Event, input:string, filter:string) {
     e.preventDefault();
     if (input != '' && filter != '') {
-      this.results$ = this.data.filter((location:any) => location.name.official.includes(input) && location.region == filter);
+      this.results$ = this.data.filter((location:any) => location.name.official.toLowerCase().includes(input.toLowerCase()) && location.region == filter);
       console.log('Both');
       console.log(this.results$);
     }
     else if (input != '' && filter == '') {
-      this.results$ = this.data.filter((location:any) => location.name.official.includes(input));
+      this.results$ = this.data.filter((location:any) => location.name.official.toLowerCase().includes(input.toLowerCase()));
       console.log('Input');
       console.log(this.results$);
     }
