@@ -25,10 +25,8 @@ import { ApiService } from 'src/app/services/api.service';
       </select>
     </div>
     <div class="results">
-      <div class="card" *ngFor="let country of results$" routerLink="{{ country.name.common }}">
-        <div class="imgFill">
-          <img src="{{ country.flags.png }}" alt="{{ country.flags.alt }}">
-        </div>
+      <div class="card" *ngFor="let country of results$" routerLink="{{ country.name.official }}">
+        <img src="{{ country.flags.png }}" alt="{{ country.flags.alt }}">
         <div class="details">
           <h2>{{ country.name.official }}</h2>
           <p><span class="sub">Population:</span> {{ country.population.toLocaleString("en-US") }}</p>
@@ -62,16 +60,24 @@ import { ApiService } from 'src/app/services/api.service';
   }
   .results {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fit, var(--card-width));
+    place-content: center;
     gap: 20px;
     overflow-y: auto;
   }
   .card {
     background-color: var(--headerBackgroundColor);
     box-shadow: 0 0 5px 4px rgba(0, 0, 0, 0.1);
-    margin: 0 20px;
     cursor: pointer;
+    border-radius: 8px;
+    width: var(--card-width);
   }
+  img {
+    height: 175px;
+    width: var(--card-width);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  } 
   form > label {
     display: flex;
     align-items: center;
