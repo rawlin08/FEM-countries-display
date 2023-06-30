@@ -89,10 +89,7 @@ export class DetailsComponent implements OnInit {
         this.name$ = data;
         console.log(this.name$);
         this.name$[0].borders.forEach((country:any) => {
-          this.api.searchBorderedCountry(country).subscribe((data) => {
-            this.borderedCountries.push(data)
-            console.log(this.borderedCountries);
-          });
+          
         });
       });
     });

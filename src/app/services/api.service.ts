@@ -13,10 +13,4 @@ export class ApiService {
   getSpecificLocation(location:string) {
     return this.http.get(`https://restcountries.com/v3.1/name/${location}?fullText=true`);
   }
-  searchLocation(location:string) {
-    return this.http.get(`https://restcountries.com/v3.1/name/${location}`);
-  }
-  searchBorderedCountry(code:string) {
-    return this.http.get(`https://restcountries.com/v3.1/alpha/${code}`)
-  }
 }
