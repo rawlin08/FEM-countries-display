@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({
@@ -28,10 +28,12 @@ import { ApiService } from 'src/app/services/api.service';
         <p><span class="sub">Currencies:</span> {{ getCurrencies() }}</p>
         <p><span class="sub">Languages:</span> {{ getLanguages() }}</p>
       </section>
-      <h2>Border Countries:</h2>
-      <div class="bordered">
-        <button class="bordersBttn" *ngFor="let borderCountry of this.borderedCountries">{{ borderCountry[0].name.common }}</button>
-      </div>
+      <section class="border">
+        <h2>Border Countries:</h2>
+        <div class="bordered">
+          <button class="bordersBttn" (click)="this.selectedBorder(borderCountry[0].name.official)" *ngFor="let borderCountry of this.borderedCountries">{{ borderCountry[0].name.common }}</button>
+        </div>
+      </section>
     </div>
   </main>
     `,
@@ -41,17 +43,23 @@ import { ApiService } from 'src/app/services/api.service';
     place-content: center;
   }
   #back, .bordersBttn {
-    display: flex;
-    align-items: center;
     font-family: inherit;
-    padding: 0 25px 0 20px;
-    gap: 2px;
     box-shadow: 0 0 5px 4px rgba(0, 0, 0, 0.1);
-    margin: 20px 0 40px 0;
     background-color: var(--headerBackgroundColor);
     color: inherit;
     border: none;
     transition: background 200ms ease-in-out;
+  }
+  #back {
+    display: flex;
+    align-items: center;
+    padding: 0 25px 0 20px;
+    gap: 2px;
+    margin: 20px 0 40px 0;
+  }
+  .bordersBttn {
+    padding: 10px 20px;
+    text-align: center;
   }
   .back {
     width: 30px;
@@ -69,16 +77,13 @@ import { ApiService } from 'src/app/services/api.service';
   }
   .bordered {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, 107px);
     gap: 10px;
-  }
-  .bordersBttn {
-    padding: 5px 20px;
   }
   h2 {
     margin: 0;
   }
-  h2:nth-child(5) {
+  .border > h2 {
     font-weight: 600;
     font-size: 20px;
   }
@@ -89,7 +94,7 @@ import { ApiService } from 'src/app/services/api.service';
   `]
 })
 export class DetailsComponent implements OnInit {
-  constructor(public api: ApiService, public route: ActivatedRoute) {}
+  constructor(public api: ApiService, public route: ActivatedRoute, public router: Router) {}
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
       let uid: any = params.get('name');
@@ -98,7 +103,10 @@ export class DetailsComponent implements OnInit {
           this.name$ = res;
           console.log(this.name$);
           this.name$[0].borders.forEach((country:any) => {
-
+            this.api.searchBorderedCountry(country).subscribe((data) => {
+              this.borderedCountries.push(data);
+              console.log(this.borderedCountries);
+            });
           });
         },
         err => {
@@ -123,5 +131,9 @@ export class DetailsComponent implements OnInit {
   getLanguages() {
     let key:any = Object.values(this.name$[0].languages); 
     return key
+  }
+  selectedBorder(country:string) {
+    console.log(country);
+    this.router.navigate([`${country}`])
   }
 }
