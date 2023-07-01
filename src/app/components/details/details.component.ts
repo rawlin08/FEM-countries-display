@@ -133,6 +133,7 @@ export class DetailsComponent implements OnInit {
       this.api.getSpecificLocation(uid).subscribe(
         res => {
           this.name$ = res;
+          this.borderedCountries = [];
           if (this.name$[0].borders) {
             this.name$[0].borders.forEach((country:any) => {
               this.api.searchBorderedCountry(country).subscribe((data) => {
