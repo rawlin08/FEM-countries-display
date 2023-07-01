@@ -37,10 +37,7 @@ import { AppComponent } from 'src/app/app.component';
 })
 export class HeaderComponent implements OnInit {
   constructor(public app: AppComponent) {}
-  ngOnInit() {
-    console.log(this.app.theme.icon);
-    
-  }
+  ngOnInit() {}
 
   toggleTheme() {
     if (this.app.theme.mode == 'light') {
