@@ -60,7 +60,7 @@ import { ApiService } from 'src/app/services/api.service';
   .searchIcon {
     padding: 0 0 0 15px;
   }
-  input[type="search"] {
+  input[type="text"] {
     border: none;
     padding: 15px 0;
     width: 85%;
