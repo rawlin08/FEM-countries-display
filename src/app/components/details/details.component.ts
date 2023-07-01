@@ -33,6 +33,7 @@ import { ApiService } from 'src/app/services/api.service';
         </div>
         <section class="border">
           <h2>Border Countries:</h2>
+          <p *ngIf="this.borderedCountries.length == 0">No border countries listed.</p>
           <div class="bordered">
             <button class="bordersBttn" (click)="this.selectedBorder(borderCountry[0].name.official)" *ngFor="let borderCountry of this.borderedCountries">{{ borderCountry[0].name.common }}</button>
           </div>
@@ -57,9 +58,10 @@ import { ApiService } from 'src/app/services/api.service';
   #back {
     display: flex;
     align-items: center;
-    padding: 0 25px 0 20px;
+    padding: 5px 35px 5px 30px;
     gap: 2px;
     margin: 20px 0 40px 0;
+    font-size: 16px;
   }
   .bordersBttn {
     padding: 10px 0;
@@ -71,6 +73,9 @@ import { ApiService } from 'src/app/services/api.service';
   }
   .information > h2 {
     margin: 30px 0;
+  }
+  .subInformation > section:first-child {
+    margin: 0 0 30px 0;
   }
   .information > section:nth-child(3) {
     margin: 40px 0;
@@ -89,6 +94,7 @@ import { ApiService } from 'src/app/services/api.service';
   .border > h2 {
     font-weight: 600;
     font-size: 20px;
+    margin: 0 0 10px 0;
   }
   img {
     width: 100%;
@@ -112,9 +118,6 @@ import { ApiService } from 'src/app/services/api.service';
       display: flex;
       gap: 100px;
     }
-    .border > h2 {
-      margin: 0 0 10px 0;
-    }
     img {
     width: 100%;
     height: 350px;
@@ -130,11 +133,13 @@ export class DetailsComponent implements OnInit {
       this.api.getSpecificLocation(uid).subscribe(
         res => {
           this.name$ = res;
-          this.name$[0].borders.forEach((country:any) => {
-            this.api.searchBorderedCountry(country).subscribe((data) => {
-              this.borderedCountries.push(data);
+          if (this.name$[0].borders) {
+            this.name$[0].borders.forEach((country:any) => {
+              this.api.searchBorderedCountry(country).subscribe((data) => {
+                this.borderedCountries.push(data);
+              });
             });
-          });
+          }
         },
         err => {
           console.log('HTTP Error', err);
@@ -156,7 +161,9 @@ export class DetailsComponent implements OnInit {
     return key[0].name
   }
   getLanguages() {
-    let key:any = Object.values(this.name$[0].languages); 
+    let key:any = Object.values(this.name$[0].languages);
+    key = key.toString();
+    key = key.replace(/,/g, ', ');
     return key
   }
   selectedBorder(country:string) {
