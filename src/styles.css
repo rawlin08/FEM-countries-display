@@ -78,7 +78,7 @@ app-details {
     font-weight: 600;
 }
 
-@media (min-width: 1281px) {
+@media (min-width: 1400px) {
     app-header {
         padding: 20px 100px;
     }

@@ -128,7 +128,7 @@ import { ApiService } from 'src/app/services/api.service';
     margin: 0 0 5px 0;
   }
   /* DESKTOP */
-  @media (min-width: 1281px) {
+  @media (min-width: 1400px) {
     .fields {
       display: flex;
       justify-content: space-between;

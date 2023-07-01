@@ -25,7 +25,7 @@ import { AppComponent } from 'src/app/app.component';
     font-family: 'Nunito Sans', sans-serif;
     font-weight: 600;
   }
-  @media (min-width: 1281px) {
+  @media (min-width: 1400px) {
     h1 {
       font-size: 25px;
     }

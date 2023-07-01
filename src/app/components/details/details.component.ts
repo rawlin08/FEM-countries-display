@@ -80,7 +80,7 @@ import { ApiService } from 'src/app/services/api.service';
   .subInformation > section:first-child {
     margin: 0 0 30px 0;
   }
-  .information > section:nth-child(3) {
+  .border {
     margin: 40px 0;
   }
   section > p {
@@ -104,9 +104,10 @@ import { ApiService } from 'src/app/services/api.service';
     max-width: 400px;
     height: auto;
   }
-  @media (min-width: 1281px) {
+  @media (min-width: 1024px) {
     .content {
       grid-template-columns: 1fr 1fr;
+      gap: 20px;
     }
     #back {
       margin: 50px 0;
@@ -115,20 +116,30 @@ import { ApiService } from 'src/app/services/api.service';
       display: grid;
       place-content: center;
     }
-    .information > section:nth-child(3) {
-      margin: 20px 0;
-    }
     .subInformation {
       display: flex;
       gap: 100px;
     }
     img {
-      min-width: 650px;
-      width: 700px;
+      width: 100%;
+      max-width: fit-content;
     }
     .imgFill {
       display: grid;
-      place-content: center;
+      justify-content: left;
+      align-items: center;
+    }
+    .border {
+      margin: 0;
+    }
+  }
+  @media (min-width: 1400px) {
+    .border {
+      margin: 20px 0;
+    }
+    img {
+      min-width: 650px;
+      width: 700px;
     }
   }
   `]
