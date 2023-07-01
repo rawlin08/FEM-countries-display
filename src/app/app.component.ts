@@ -12,7 +12,8 @@ export class AppComponent implements OnInit {
     if (!this.theme) {
       this.theme = {
         mode: 'light',
-        button: 'Dark Mode'
+        button: 'Dark Mode',
+        icon: 'moonIcon'
       };
     }
     document.body.classList.add(this.theme.mode);

@@ -5,7 +5,7 @@ import { AppComponent } from 'src/app/app.component';
   selector: 'app-header',
   template: `
   <h1>Where in the world?</h1>
-  <button (click)="toggleTheme()"><svg class="icon"><use href="#moonIcon"></use></svg> {{ this.app.theme.button }}</button>
+  <button (click)="toggleTheme()"><svg class="icon"><use attr.href="#{{ this.app.theme.icon }}"></use></svg> {{ this.app.theme.button }}</button>
   `,
   styles: [`
   h1 {
@@ -37,20 +37,25 @@ import { AppComponent } from 'src/app/app.component';
 })
 export class HeaderComponent implements OnInit {
   constructor(public app: AppComponent) {}
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.app.theme.icon);
+    
+  }
 
   toggleTheme() {
     if (this.app.theme.mode == 'light') {
       this.app.theme = {
         mode: 'dark',
-        button: 'Light Mode'
+        button: 'Light Mode',
+        icon: 'sunIcon'
       }
       document.body.classList.replace('light', 'dark');
     }
     else {
       this.app.theme = {
         mode: 'light',
-        button: 'Dark Mode'
+        button: 'Dark Mode',
+        icon: 'moonIcon'
       }
       document.body.classList.replace('dark', 'light');
     }
