@@ -124,6 +124,9 @@ import { ApiService } from 'src/app/services/api.service';
   .details {
     padding: 0 20px 30px 20px;
   }
+  .details > p {
+    margin: 0 0 5px 0;
+  }
   /* DESKTOP */
   @media (min-width: 1281px) {
     .fields {
