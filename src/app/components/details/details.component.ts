@@ -14,7 +14,9 @@ import { ApiService } from 'src/app/services/api.service';
       <p>Location Not Found. Did you type it in right?</p>
     </div>
     <div class="content" *ngIf="this.name$">
-      <img src="{{ name$[0].flags.png }}" alt="{{ name$[0].flags.alt }}">
+      <div class="imgFill">
+        <img src="{{ name$[0].flags.svg }}" alt="{{ name$[0].flags.alt }}">
+      </div>
       <div class="information">
         <h2>{{ name$[0].name.official }}</h2>
         <div class="subInformation">
@@ -22,8 +24,8 @@ import { ApiService } from 'src/app/services/api.service';
             <p><span class="sub">Native Name:</span> {{ name$[0].name.common }}</p>
             <p><span class="sub">Population:</span> {{ name$[0].population.toLocaleString('en-US') }}</p>
             <p><span class="sub">Region:</span> {{ name$[0].region }}</p>
-            <p><span class="sub">Sub Region:</span> {{ name$[0].subregion }}</p>
-            <p><span class="sub">Capital:</span> {{ name$[0].capital == undefined ? 'No Capital Listed' : name$[0].capital[0] }}</p>
+            <p><span class="sub">Sub Region:</span> {{ name$[0].subregion == undefined ? 'No subregion listed.' : name$[0].subregion }}</p>
+            <p><span class="sub">Capital:</span> {{ name$[0].capital == undefined ? 'No capital listed.' : name$[0].capital[0] }}</p>
           </section>
           <section>
             <p><span class="sub">Top Level Domain:</span> {{ name$[0].tld[0] }}</p>
@@ -64,7 +66,7 @@ import { ApiService } from 'src/app/services/api.service';
     font-size: 16px;
   }
   .bordersBttn {
-    padding: 10px 0;
+    padding: 10px 5px;
     text-align: center;
   }
   .back {
@@ -85,7 +87,7 @@ import { ApiService } from 'src/app/services/api.service';
   }
   .bordered {
     display: grid;
-    grid-template-columns: repeat(auto-fit, 107px);
+    grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
     gap: 10px;
   }
   h2 {
@@ -98,18 +100,19 @@ import { ApiService } from 'src/app/services/api.service';
   }
   img {
     width: 100%;
+    max-width: 400px;
     height: auto;
   }
   @media (min-width: 1281px) {
     .content {
       grid-template-columns: 1fr 1fr;
-      gap: 100px;
     }
     #back {
       margin: 50px 0;
     }
-    .information > h2 {
-      margin: 0;
+    .information {
+      display: grid;
+      place-content: center;
     }
     .information > section:nth-child(3) {
       margin: 20px 0;
@@ -119,8 +122,12 @@ import { ApiService } from 'src/app/services/api.service';
       gap: 100px;
     }
     img {
-    width: 100%;
-    height: 350px;
+      min-width: 650px;
+      width: 700px;
+    }
+    .imgFill {
+      display: grid;
+      place-content: center;
     }
   }
   `]
@@ -133,11 +140,13 @@ export class DetailsComponent implements OnInit {
       this.api.getSpecificLocation(uid).subscribe(
         res => {
           this.name$ = res;
+          console.log(res);
+          
           this.borderedCountries = [];
           if (this.name$[0].borders) {
             this.name$[0].borders.forEach((country:any) => {
               this.api.searchBorderedCountry(country).subscribe((data) => {
-                this.borderedCountries.push(data);
+                this.borderedCountries.push(data);    
               });
             });
           }
@@ -158,14 +167,24 @@ export class DetailsComponent implements OnInit {
   borderedCountries:any = []
   
   getCurrencies() {
-    let key:any = Object.values(this.name$[0].currencies);
-    return key[0].name
+    if (this.name$[0].currencies) {
+      let key:any = Object.values(this.name$[0].currencies);
+      return key[0].name
+    }
+    else {
+      return 'No currencies listed.'
+    }
   }
   getLanguages() {
-    let key:any = Object.values(this.name$[0].languages);
-    key = key.toString();
-    key = key.replace(/,/g, ', ');
-    return key
+    if (this.name$[0].languages) {
+      let key:any = Object.values(this.name$[0].languages);
+      key = key.toString();
+      key = key.replace(/,/g, ', ');
+      return key
+    }
+    else {
+      return 'No languages listed.'
+    }
   }
   selectedBorder(country:string) {
     console.log(country);

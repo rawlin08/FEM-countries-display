@@ -39,7 +39,7 @@ import { ApiService } from 'src/app/services/api.service';
           <h2>{{ country.name.official }}</h2>
           <p><span class="sub">Population:</span> {{ country.population.toLocaleString("en-US") }}</p>
           <p><span class="sub">Region:</span> {{ country.region }}</p>
-          <p><span class="sub">Capital:</span> {{ country.capital == undefined ? 'No Capital Listed' : country.capital[0] }}</p>
+          <p><span class="sub">Capital:</span> {{ country.capital == undefined ? 'No Capital Listed.' : country.capital[0] }}</p>
         </div>
       </div>
     </div>
