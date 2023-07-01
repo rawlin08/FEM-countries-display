@@ -16,7 +16,7 @@ import { ApiService } from 'src/app/services/api.service';
       </div>
       <div class="filter">
         <form (input)="search($event, searchbox.value, select.value)">
-          <label for="region-select">Filter by Region</label>
+          <label for="region-select">Filter by Region:</label>
           <select #select name="region-select" id="region-select">
             <option value="">None</option>
             <option value="Africa">Africa</option>
@@ -68,6 +68,7 @@ import { ApiService } from 'src/app/services/api.service';
     background-color: var(--headerBackgroundColor);
     color: inherit;
     transition: color 500ms ease-in-out;
+    font-size: 16px;
   }
   input:focus {
     outline: none;
@@ -79,13 +80,14 @@ import { ApiService } from 'src/app/services/api.service';
     padding: 15px;
     box-shadow: 0 0 5px 4px rgba(0, 0, 0, 0.1);
     margin: 30px 0;
-    width: 200px;
+    width: 250px;
   }
   .filter select {
     background-color: transparent;
     border: none;
     text-align: right;
     color: inherit;
+    font-size: 16px;
   }
   .filter > form {
     display: flex;
@@ -97,6 +99,7 @@ import { ApiService } from 'src/app/services/api.service';
     place-content: center;
     gap: 50px;
     overflow-y: auto;
+    padding: 0 0 20px 0;
   }
   .card {
     background-color: var(--headerBackgroundColor);
@@ -127,8 +130,11 @@ import { ApiService } from 'src/app/services/api.service';
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 100px;
+      padding: 0 100px 0 90px;
       margin: 10px 0 20px 0;
+    }
+    .searchbar > form {
+      width: 450px;
     }
     .filter {
       margin: 0;
