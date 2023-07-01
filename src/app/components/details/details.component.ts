@@ -9,26 +9,29 @@ import { ApiService } from 'src/app/services/api.service';
   <ng-template #loading>
     <div class="loader"></div>
   </ng-template>
-  <main *ngIf="this.name$; else loading">
-    <div class="imgFill">
-      <img src="{{ name$[0].flags.png }}" alt="{{ name$[0].flags.alt }}">
+  <main *ngIf="this.name$ || this.error$; else loading">
+    <div class="error" *ngIf="this.error$">
+      <p>Location Not Found. Did you type it in right?</p>
     </div>
-    <h2>{{ name$[0].name.official }}</h2>
-    <section>
-      <p><span class="sub">Native Name:</span> {{ name$[0].name.common }}</p>
-      <p><span class="sub">Population:</span> {{ name$[0].population.toLocaleString('en-US') }}</p>
-      <p><span class="sub">Region:</span> {{ name$[0].region }}</p>
-      <p><span class="sub">Sub Region:</span> {{ name$[0].subregion }}</p>
-      <p><span class="sub">Capital:</span> {{ name$[0].capital == undefined ? 'No Capital Listed' : name$[0].capital[0] }}</p>
-    </section>
-    <section>
-      <p><span class="sub">Top Level Domain:</span> {{ name$[0].tld[0] }}</p>
-      <p><span class="sub">Currencies:</span> {{ getCurrencies() }}</p>
-      <p><span class="sub">Languages:</span> {{ getLanguages() }}</p>
-    </section>
-    <h2>Border Countries:</h2>
-    <div class="bordered">
-      <button class="bordersBttn" *ngFor="let borderCountry of this.borderedCountries">{{ borderCountry[0].name.common }}</button>
+    <div class="content" *ngIf="this.name$">
+      <img src="{{ name$[0].flags.png }}" alt="{{ name$[0].flags.alt }}">
+      <h2>{{ name$[0].name.official }}</h2>
+      <section>
+        <p><span class="sub">Native Name:</span> {{ name$[0].name.common }}</p>
+        <p><span class="sub">Population:</span> {{ name$[0].population.toLocaleString('en-US') }}</p>
+        <p><span class="sub">Region:</span> {{ name$[0].region }}</p>
+        <p><span class="sub">Sub Region:</span> {{ name$[0].subregion }}</p>
+        <p><span class="sub">Capital:</span> {{ name$[0].capital == undefined ? 'No Capital Listed' : name$[0].capital[0] }}</p>
+      </section>
+      <section>
+        <p><span class="sub">Top Level Domain:</span> {{ name$[0].tld[0] }}</p>
+        <p><span class="sub">Currencies:</span> {{ getCurrencies() }}</p>
+        <p><span class="sub">Languages:</span> {{ getLanguages() }}</p>
+      </section>
+      <h2>Border Countries:</h2>
+      <div class="bordered">
+        <button class="bordersBttn" *ngFor="let borderCountry of this.borderedCountries">{{ borderCountry[0].name.common }}</button>
+      </div>
     </div>
   </main>
     `,
@@ -84,18 +87,27 @@ export class DetailsComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
       let uid: any = params.get('name');
-      this.api.getSpecificLocation(uid).subscribe((data) => {
-        this.name$ = data;
-        console.log(this.name$);
-        
-        this.name$[0].borders.forEach((country:any) => {
-          
-        });
-      });
+      this.api.getSpecificLocation(uid).subscribe(
+        res => {
+          this.name$ = res;
+          console.log(this.name$);
+          this.name$[0].borders.forEach((country:any) => {
+
+          });
+        },
+        err => {
+          console.log('HTTP Error', err);
+          this.error$ = err;
+        },
+        () => {
+          console.log('HTTP request completed.')
+        }
+      );
     });
   }
 
   name$:any;
+  error$:any;
   borderedCountries:any = []
   
   getCurrencies() {
