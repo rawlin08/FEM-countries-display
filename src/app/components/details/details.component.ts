@@ -68,6 +68,7 @@ import { ApiService } from 'src/app/services/api.service';
   .bordersBttn {
     padding: 10px 5px;
     text-align: center;
+    font-size: 15px;
   }
   .back {
     width: 30px;
