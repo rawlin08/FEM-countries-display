@@ -15,25 +15,29 @@ import { ApiService } from 'src/app/services/api.service';
     </div>
     <div class="content" *ngIf="this.name$">
       <img src="{{ name$[0].flags.png }}" alt="{{ name$[0].flags.alt }}">
-      <h2>{{ name$[0].name.official }}</h2>
-      <section>
-        <p><span class="sub">Native Name:</span> {{ name$[0].name.common }}</p>
-        <p><span class="sub">Population:</span> {{ name$[0].population.toLocaleString('en-US') }}</p>
-        <p><span class="sub">Region:</span> {{ name$[0].region }}</p>
-        <p><span class="sub">Sub Region:</span> {{ name$[0].subregion }}</p>
-        <p><span class="sub">Capital:</span> {{ name$[0].capital == undefined ? 'No Capital Listed' : name$[0].capital[0] }}</p>
-      </section>
-      <section>
-        <p><span class="sub">Top Level Domain:</span> {{ name$[0].tld[0] }}</p>
-        <p><span class="sub">Currencies:</span> {{ getCurrencies() }}</p>
-        <p><span class="sub">Languages:</span> {{ getLanguages() }}</p>
-      </section>
-      <section class="border">
-        <h2>Border Countries:</h2>
-        <div class="bordered">
-          <button class="bordersBttn" (click)="this.selectedBorder(borderCountry[0].name.official)" *ngFor="let borderCountry of this.borderedCountries">{{ borderCountry[0].name.common }}</button>
+      <div class="information">
+        <h2>{{ name$[0].name.official }}</h2>
+        <div class="subInformation">
+          <section>
+            <p><span class="sub">Native Name:</span> {{ name$[0].name.common }}</p>
+            <p><span class="sub">Population:</span> {{ name$[0].population.toLocaleString('en-US') }}</p>
+            <p><span class="sub">Region:</span> {{ name$[0].region }}</p>
+            <p><span class="sub">Sub Region:</span> {{ name$[0].subregion }}</p>
+            <p><span class="sub">Capital:</span> {{ name$[0].capital == undefined ? 'No Capital Listed' : name$[0].capital[0] }}</p>
+          </section>
+          <section>
+            <p><span class="sub">Top Level Domain:</span> {{ name$[0].tld[0] }}</p>
+            <p><span class="sub">Currencies:</span> {{ getCurrencies() }}</p>
+            <p><span class="sub">Languages:</span> {{ getLanguages() }}</p>
+          </section>
         </div>
-      </section>
+        <section class="border">
+          <h2>Border Countries:</h2>
+          <div class="bordered">
+            <button class="bordersBttn" (click)="this.selectedBorder(borderCountry[0].name.official)" *ngFor="let borderCountry of this.borderedCountries">{{ borderCountry[0].name.common }}</button>
+          </div>
+        </section>
+      </div>
     </div>
   </main>
     `,
@@ -58,22 +62,21 @@ import { ApiService } from 'src/app/services/api.service';
     margin: 20px 0 40px 0;
   }
   .bordersBttn {
-    padding: 10px 20px;
+    padding: 10px 0;
     text-align: center;
   }
   .back {
     width: 30px;
     height: 30px;
   }
-  h2:nth-child(2) {
+  .information > h2 {
     margin: 30px 0;
   }
-  .content > section:nth-child(4) {
+  .information > section:nth-child(3) {
     margin: 40px 0;
   }
-  section {
-    display: grid;
-    gap: 10px;
+  section > p {
+    margin: 0 0 10px 0;
   }
   .bordered {
     display: grid;
@@ -91,6 +94,32 @@ import { ApiService } from 'src/app/services/api.service';
     width: 100%;
     height: auto;
   }
+  @media (min-width: 1281px) {
+    .content {
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+    }
+    #back {
+      margin: 50px 0;
+    }
+    .information > h2 {
+      margin: 0;
+    }
+    .information > section:nth-child(3) {
+      margin: 20px 0;
+    }
+    .subInformation {
+      display: flex;
+      gap: 100px;
+    }
+    .border > h2 {
+      margin: 0 0 10px 0;
+    }
+    img {
+    width: 100%;
+    height: 350px;
+    }
+  }
   `]
 })
 export class DetailsComponent implements OnInit {
@@ -101,11 +130,9 @@ export class DetailsComponent implements OnInit {
       this.api.getSpecificLocation(uid).subscribe(
         res => {
           this.name$ = res;
-          console.log(this.name$);
           this.name$[0].borders.forEach((country:any) => {
             this.api.searchBorderedCountry(country).subscribe((data) => {
               this.borderedCountries.push(data);
-              console.log(this.borderedCountries);
             });
           });
         },
