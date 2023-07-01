@@ -11,7 +11,7 @@ import { ApiService } from 'src/app/services/api.service';
           <label for="search">
             <svg class="icon searchIcon"><use href="#searchIcon"></use></svg>
           </label>
-          <input id="search" #searchbox type="search" placeholder="Search for a country...">
+          <input id="search" #searchbox type="text" placeholder="Search for a country...">
         </form>
       </div>
       <div class="filter">
