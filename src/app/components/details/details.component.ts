@@ -36,6 +36,10 @@ import { ApiService } from 'src/app/services/api.service';
   </main>
     `,
   styles: [`
+  .content {
+    display: grid;
+    place-content: center;
+  }
   #back, .bordersBttn {
     display: flex;
     align-items: center;
@@ -44,9 +48,10 @@ import { ApiService } from 'src/app/services/api.service';
     gap: 2px;
     box-shadow: 0 0 5px 4px rgba(0, 0, 0, 0.1);
     margin: 20px 0 40px 0;
-    background-color: inherit;
+    background-color: var(--headerBackgroundColor);
     color: inherit;
     border: none;
+    transition: background 200ms ease-in-out;
   }
   .back {
     width: 30px;
@@ -55,15 +60,12 @@ import { ApiService } from 'src/app/services/api.service';
   h2:nth-child(2) {
     margin: 30px 0;
   }
-  main > section:nth-child(4) {
-    margin: 20px 0 30px 0;
+  .content > section:nth-child(4) {
+    margin: 40px 0;
   }
   section {
     display: grid;
     gap: 10px;
-  }
-  a {
-    text-decoration: none;
   }
   .bordered {
     display: grid;
@@ -79,6 +81,10 @@ import { ApiService } from 'src/app/services/api.service';
   h2:nth-child(5) {
     font-weight: 600;
     font-size: 20px;
+  }
+  img {
+    width: 100%;
+    height: auto;
   }
   `]
 })
