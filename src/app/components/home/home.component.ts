@@ -127,7 +127,7 @@ import { ApiService } from 'src/app/services/api.service';
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 50px;
+      padding: 0 100px;
       margin: 10px 0 20px 0;
     }
     .filter {
@@ -142,7 +142,6 @@ export class HomeComponent implements OnInit {
     this.api.getAllLocations().subscribe((data) => {
       this.data = data;
       this.results$ = this.data;
-      console.log(this.data);
       this.isLocationsSearched = true;
     })
   }
@@ -155,21 +154,14 @@ export class HomeComponent implements OnInit {
     e.preventDefault();
     if (input != '' && filter != '') {
       this.results$ = this.data.filter((location:any) => location.name.official.toLowerCase().includes(input.toLowerCase()) && location.region == filter);
-      console.log('Both');
-      console.log(this.results$);
     }
     else if (input != '' && filter == '') {
       this.results$ = this.data.filter((location:any) => location.name.official.toLowerCase().includes(input.toLowerCase()));
-      console.log('Input');
-      console.log(this.results$);
     }
     else if (input == '' && filter != '') {
       this.results$ = this.data.filter((location:any) => location.region == filter);
-      console.log('Filter');
-      console.log(this.results$);
     }
     else {
-      console.log('Both Empty');
       this.results$ = this.data;
     }
   }

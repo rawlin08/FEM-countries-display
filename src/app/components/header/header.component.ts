@@ -9,7 +9,7 @@ import { AppComponent } from 'src/app/app.component';
   `,
   styles: [`
   h1 {
-    font-size: 1em;
+    font-size: 16px;
     color: inherit;
   }
   button {
@@ -24,6 +24,14 @@ import { AppComponent } from 'src/app/app.component';
     font-size: 0.90em;
     font-family: 'Nunito Sans', sans-serif;
     font-weight: 600;
+  }
+  @media (min-width: 1281px) {
+    h1 {
+      font-size: 25px;
+    }
+    button {
+      font-size: 20px;
+    }
   }
   `]
 })
