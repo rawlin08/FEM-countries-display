@@ -3,7 +3,7 @@
 This app is a countries facts display created 100% in Angular 15.
 
 # Features
-- Pulls from an API to show current countries
+- Pulls from an API (https://restcountries.com/) to show current countries
 - Search for specific countries
 - Filter search by region
 - Pictures and facts about each country
